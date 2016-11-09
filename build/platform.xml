@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<platform xmlns="http://ns.adobe.com/air/extension/16.0">
+	<packagedDependencies>
+		<packagedDependency>iap4Helper.jar</packagedDependency>
+	</packagedDependencies>
+	<packagedResources>
+		<packagedResource>
+			<packageName>com.samsung.android.sdk.iap.lib</packageName>
+			<folderName>iap4Helper-res</folderName>
+		</packagedResource>
+	</packagedResources>
+</platform>

@@ -1,0 +1,5 @@
+bin/
+build/temp/
+build/build.config
+.idea/vcs.xml
+.idea/workspace.xml

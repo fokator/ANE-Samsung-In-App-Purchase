@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Air Native Extension Build Scripts" default="all">
+
+	<!-- Config -->
+	<property file="build.config" />
+	<property name="project.dir" location=".." />
+
+	<!-- All -->
+	<target name="all" depends="android,swc,package" description="Full build of extension" />
+
+	<!-- Android -->
+	<target name="android" description="Build android Library">
+		<echo message="Build android library ..."/>
+
+		<exec executable="../android/gradlew.bat" dir="../android">
+			<arg line=":library:assembleRelease"/>
+		</exec>
+
+		<!-- extract main library -->
+		<unzip src="../android/library/build/outputs/aar/library-release.aar" dest="../android/build/library/aar" overwrite="true"/>
+		<copy file="../android/build/library/aar/classes.jar" tofile="temp/android/lib${name}.jar"/>
+
+		<!-- extract iap4Helper library -->
+		<unzip src="../android/iap4Helper/build/outputs/aar/iap4Helper-release.aar" dest="../android/build/iap4Helper/aar" overwrite="true"/>
+		<copy file="../android/build/iap4Helper/aar/classes.jar" tofile="temp/android/iap4Helper.jar"/>
+		<copy todir="temp/android/iap4Helper-res/">
+			<fileset dir="../android/build/iap4Helper/aar/res/"/>
+		</copy>
+
+		<!-- copy all -->
+		<copy todir="../bin/android/">
+			<fileset dir="temp/android/"/>
+		</copy>
+
+		<echo message="Done."/>
+	</target>
+	
+	 <!-- Actionscript -->
+    <target name="swc" description="Build SWC library">
+		<echo message="Building SWC library ..."/>
+
+        <fileset dir="../actionscript/src" casesensitive="yes" id="classfiles">
+            <include name="**/*.as"/>
+        </fileset>
+
+        <pathconvert property="classlist" refid="classfiles" pathsep=" " dirsep=".">
+            <regexpmapper from=".*src.(.*)\.as" to="\1"/>
+        </pathconvert>
+
+        <exec executable="${flex.sdk}/bin/compc${bat.ext}" failonerror="true">
+            <env key="AIR_SDK_HOME" value="${flex.sdk}"/>
+            <arg line='-source-path ../actionscript/src'/>
+            <arg line='-output ../bin/actionscript/${name}.swc'/>
+            <arg line='-swf-version=${swf.version}'/>
+            <arg line='-external-library-path+="${flex.sdk}/frameworks/libs/air/airglobal.swc"'/>
+            <arg line='-include-classes ${classlist}'/>
+        </exec>
+
+		<echo message="Propagating SWF ..."/>
+        <unzip src="../bin/actionscript/${name}.swc" dest="../bin/actionscript/content" overwrite="true"/>
+
+        <copy file="../bin/actionscript/content/library.swf" todir="../bin/android" overwrite="true"/>
+        <copy file="../bin/actionscript/content/library.swf" todir="../bin/default" overwrite="true"/>
+		
+		<delete dir="../bin/actionscript/content"/>
+		
+		<echo message="Done."/>
+    </target>
+
+	<!-- Packaging -->
+	<target name="package" description="Create the extension package">
+		<echo message="Packaging the ANE ..."/>
+		<exec executable="${flex.sdk}/bin/adt${bat.ext}" failonerror="true" dir="../bin">
+            <arg value="-package"/>
+            <arg value="-target"/>
+            <arg value="ane"/>
+            <arg value="${name}.ane"/>
+            <arg value="../build/extension.xml"/>
+            <arg line="-swc actionscript/${name}.swc"/>
+			<arg line="-platform Android-ARM -platformoptions ../build/platform.xml -C android/ ."/>
+			<arg line="-platform Android-x86 -platformoptions ../build/platform.xml -C android/ ."/>
+            <arg line="-platform default -C default/ ."/>
+        </exec>
+		<copy file="../bin/actionscript/${name}.swc" todir="../bin" overwrite="true"/>
+		<echo message="Done."/>
+	</target>
+	
+	<!-- Export -->
+	<target name="export" description="Export the compiled ANE">
+		<echo message="Exporting the compiled ANE to ${export.dir} ..."/>
+		<copy file="../bin/${name}.ane" todir="${export.dir}" overwrite="true"/>
+		<echo message="Done."/>
+	</target>
+	
+	<!-- ASDoc -->
+	<target name="doc" description="Generate ASDoc">
+		<echo message="Generating asdoc ..."/>
+		<mkdir dir="../bin/doc"/>
+		<exec executable="${flex.sdk}/bin/asdoc${bat.ext}" failonerror="true">
+            <arg line='-load-config="${flex.sdk}/frameworks/airmobile-config.xml"'/>
+			<arg line="-main-title '${name} ANE API Documentation'" />
+            <arg line="-window-title '${name} ANE API Documentation'" />
+            <arg line="-source-path ../actionscript/src" />
+			<arg line="-doc-sources ../actionscript/src" />
+			<arg line="-output ../bin/doc" />
+        </exec>
+        <zip destfile="../bin/documentation.zip"
+             basedir="../bin/doc"
+                />
+		<echo message="Done."/>
+	</target>
+</project>

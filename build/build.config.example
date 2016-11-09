@@ -1,0 +1,20 @@
+name = SamsungInAppPurchase
+
+# The location of the Flex SDK 
+flex.sdk = c:/flexsdks/air
+
+# The SWF version to compile against
+swf.version = 27
+
+# Executable files extensions (for Mac leave empty, for Windows, set to .exe and .bat)
+bin.ext = .exe
+bat.ext = .bat
+
+# The javac executable folder
+javac.dir = C:/JAVA/jdk1.8.0_40/bin
+
+# Location of the Android SDK (folder containing android.jar)
+android.sdk = C:/android/sdk/platforms/android-22
+
+# Using the "export" target will copy the ANE file to this location
+export.dir = export
