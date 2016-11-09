@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/actionscript/actionscript.iml" filepath="$PROJECT_DIR$/actionscript/actionscript.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/library/src/main/android.iml" filepath="$PROJECT_DIR$/android/library/src/main/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/iap4Helper/src/main/iap4Helper.iml" filepath="$PROJECT_DIR$/android/iap4Helper/src/main/iap4Helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main.iml" filepath="$PROJECT_DIR$/main.iml" />
+    </modules>
+  </component>
+</project>

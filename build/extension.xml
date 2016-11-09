@@ -1,0 +1,23 @@
+<extension xmlns="http://ns.adobe.com/air/extension/16.0">
+	<id>sk.krusty.ane.samsung.inapppurchase</id>
+	<versionNumber>0.0.1</versionNumber>
+	<platforms>
+		<platform name="Android-ARM">
+			<applicationDeployment>
+				<nativeLibrary>libSamsungInAppPurchase.jar</nativeLibrary>
+				<initializer>sk.krusty.ane.samsung.inapppurchase.SamsungInAppPurchaseExtension</initializer>
+				<finalizer>sk.krusty.ane.samsung.inapppurchase.SamsungInAppPurchaseExtension</finalizer>
+			</applicationDeployment>
+		</platform>
+		<platform name="Android-x86">
+			<applicationDeployment>
+				<nativeLibrary>libSamsungInAppPurchase.jar</nativeLibrary>
+				<initializer>sk.krusty.ane.samsung.inapppurchase.SamsungInAppPurchaseExtension</initializer>
+				<finalizer>sk.krusty.ane.samsung.inapppurchase.SamsungInAppPurchaseExtension</finalizer>
+			</applicationDeployment>
+		</platform>
+		<platform name="default">
+			<applicationDeployment/>
+		</platform>
+	</platforms>
+</extension>
