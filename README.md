@@ -69,7 +69,7 @@
 </android>
 ```
 
-### Referecies :
+### Referencies :
 - http://developer.samsung.com/iap
 - http://developer.samsung.com/iap/releases
 
